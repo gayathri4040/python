@@ -37,7 +37,8 @@ for page_num in pages.findAll("a", {"class": "ListingPagination__pageContainer--
         hotel_dict["Name"] = hotel_card.find("h3", {"class": "listingHotelDescription__hotelName"}).text
         hotel_dict["Address"] = hotel_card.find("span", {"itemprop": "streetAddress"}).text
         try:
-            hotel_dict["Price"] = hotel_card.find("span", {"class": "listingPrice__finalPrice"}).text
+            price = hotel_card.find("span", {"class": "listingPrice__finalPrice"}).text
+            hotel_dict["Price"] = int(price[1:])
             hotel_dict["Rating"] = hotel_card.find("span", {"class": "hotelRating__rating"}).text
         except AttributeError:
             pass
@@ -53,4 +54,6 @@ for page_num in pages.findAll("a", {"class": "ListingPagination__pageContainer--
         scraped_info_list.append(hotel_dict)
 
 dataframe = pandas.DataFrame(scraped_info_list)
+dataframe.sort_values(by="Price", inplace=True)
+dataframe.reset_index(drop=True, inplace=True)
 dataframe.to_csv("hotels.csv")
