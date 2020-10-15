@@ -53,4 +53,4 @@ for page_num in pages.findAll("a", {"class": "ListingPagination__pageContainer--
         scraped_info_list.append(hotel_dict)
 
 dataframe = pandas.DataFrame(scraped_info_list)
-dataframe.to_csv("hotels_csv")
+dataframe.to_csv("hotels.csv")
